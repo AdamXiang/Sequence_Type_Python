@@ -41,4 +41,19 @@ class Polygon:
     def perimeter(self):
         return self._vertices_number * self.side_length
 
+    def __eq__(self, other):
+        # check whether is the polygon class
+        if isinstance(other, self.__clasee__):
+            return (self.count_edges == other.count_edges
+                    and self.circumradius == other.circumradius)
+        else:
+            return NotImplemented
+    
+    def __gt__(self, other):
+        if isinstance(other, Polygon):
+            return self.count_vertices > other.count_vertices
+        else:
+            return NotImplemented
+
+
 
