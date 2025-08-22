@@ -14,7 +14,6 @@ Through this project, I want to demonstrate:
 - Implements the **core sequence protocol** in Python:
   - `__getitem__` with support for both indexing and slicing
   - `__len__`
-  - `__iter__`
 - Supports **common Python idioms**:
   - Membership check (`x in my_sequence`)
   - Iteration in `for` loops
@@ -41,7 +40,6 @@ This project shows how to **bridge the gap between Python’s abstract base clas
 - **Object-oriented programming** with clean abstractions.
 - **Readable and maintainable code style**, following PEP 8 guidelines.
 - Experience in **writing tests** (with `pytest`) to validate correctness.
-- Use of **typing** for clarity and reliability (`typing.Sequence`, `Generic`, `TypeVar`).
 
 ---
 
@@ -50,40 +48,35 @@ This project shows how to **bridge the gap between Python’s abstract base clas
 Here’s a minimal example of how this custom sequence type works:
 
 ```python
-from collections.abc import Sequence
-from typing import Generic, TypeVar, Iterator, Union
+from polygon import Polygon
+from polygons import Polygons
 
-T = TypeVar("T")
+def main():
+    # Create a Polygons sequence with max vertices = 10 and circumradius = 5
+    polygons = Polygons(10, 5)
+    print(polygons)  
+    # Output: Polygons(m=10, R=5)
 
-class CustomSequence(Sequence, Generic[T]):
-    def __init__(self, data: list[T]) -> None:
-        self._data = list(data)
+    # Length of the sequence (polygons from 3-gon up to 10-gon)
+    print(f"Number of polygons: {len(polygons)}")  
+    # Output: 8 (3-gon to 10-gon inclusive)
 
-    def __getitem__(self, index: Union[int, slice]) -> Union[T, list[T]]:
-        return self._data[index]
+    # Indexing and slicing
+    print("First polygon:", polygons[0])   # Polygon with 3 vertices (triangle)
+    print("Last polygon:", polygons[-1])   # Polygon with 10 vertices
 
-    def __len__(self) -> int:
-        return len(self._data)
+    print("Slice [2:5]:", polygons[2:5])   # Returns polygons with 5–7 vertices
 
-    def __iter__(self) -> Iterator[T]:
-        return iter(self._data)
+    # Access properties of a specific polygon
+    hexagon = polygons[3]  # Polygon with 6 vertices
+    print(f"Hexagon - sides: {hexagon.count_edges}, area: {hexagon.area:.2f}, perimeter: {hexagon.perimeter:.2f}")
 
-    def __contains__(self, item: object) -> bool:
-        # Example: enforce case-insensitive matching if elements are strings
-        if isinstance(item, str):
-            return any(isinstance(x, str) and x.lower() == item.lower() for x in self._data)
-        return item in self._data
+    # Find the most efficient polygon (max area-to-perimeter ratio)
+    best = polygons.max_efficiency_polygon
+    print(f"Most efficient polygon: {best.count_vertices}-gon with efficiency {best.area/best.perimeter:.4f}")
 
-# Example usage
-numbers = CustomSequence([10, 20, 30, 40])
-print(numbers[1])        # 20
-print(numbers[1:3])      # [20, 30]
-print(len(numbers))      # 4
-print(30 in numbers)     # True
-print(list(numbers))     # [10, 20, 30, 40]
-
-words = CustomSequence(["Python", "Rust", "Go"])
-print("python" in words) # True (case-insensitive check)
+if __name__ == "__main__":
+    main()
 ```
 
 ---
@@ -94,12 +87,12 @@ print("python" in words) # True (case-insensitive check)
 custom-sequence-type/
 ├── custom_sequence/
 │   ├── __init__.py
-│   ├── base.py          # Core implementation of the custom sequence
-│   └── examples.py      # Example usage
+│   ├── polygon.py          
+|   ├── polygons.py      # Core implementation of the custom sequence
 ├── tests/
 │   └── test_sequence.py # Unit tests with pytest
 ├── README.md            # Project documentation
-├── pyproject.toml       # Project dependencies & metadata
+├── requirements.txt     # Project dependencies
 └── LICENSE
 ```
 
