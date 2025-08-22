@@ -10,11 +10,11 @@ class Polygon:
         return f"Polygon(vertices_number={self._vertices_number}, circumradius={self._circumradius})"
 
     @property
-    def count_vertice(self):
+    def count_vertices(self):
         return self._vertices_number
 
     @property
-    def count_edge(self):
+    def count_edges(self):
         return self._vertices_number
 
     @property
