@@ -23,7 +23,7 @@ class Polygon:
 
     @property
     def interior_angle(self):
-        return (self._n - 2) * 180 / n 
+        return (self._vertices_number - 2) * 180 / self._vertices_number 
 
     @property
     def side_length(self):
@@ -41,8 +41,4 @@ class Polygon:
     def perimeter(self):
         return self._vertices_number * self.side_length
 
-
-# make the test
-def test_polygon():
-    
 
