@@ -3,6 +3,9 @@ import math
 
 class Polygon:
     def __init__(self, vertices_number, circumradius):
+        if vertices_number < 3:
+            raise ValueError('Polygon must have at least three sides/vertices.')
+        
         self._vertices_number = vertices_number
         self._circumradius = circumradius
 
