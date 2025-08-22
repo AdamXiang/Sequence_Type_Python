@@ -52,3 +52,27 @@ def test_polygon_vertex_and_edge_counts():
     assert polygon.count_vertices == 5
     assert polygon.count_edges == 5
     assert polygon.circumradius == 10
+
+
+# --- Equality & Comparison Tests ---
+@pytest.mark.parametrize(
+    "p1, p2, expected_eq, expected_gt",
+    [
+        # Equality cases
+        (Polygon(4, 10), Polygon(4, 10), True, False),    # Same polygon
+        (Polygon(4, 10), Polygon(4, 5), False, True),     # Same vertices, different circumradius
+        (Polygon(4, 10), Polygon(5, 10), False, False),   # Different vertices
+
+        # Greater than cases (by area)
+        (Polygon(6, 2), Polygon(3, 1), False, True),      # Larger hexagon > smaller triangle
+        (Polygon(3, 1), Polygon(6, 2), False, False),     # Smaller triangle < larger hexagon
+    ],
+)
+def test_polygon_equality_and_comparison(p1, p2, expected_eq, expected_gt):
+    # Equality check
+    assert (p1 == p2) is expected_eq
+    assert (p1 != p2) is (not expected_eq)
+
+    # Greater-than / less-than check
+    assert (p1 > p2) is expected_gt
+    assert (p1 < p2) is (not expected_eq and not expected_gt)
