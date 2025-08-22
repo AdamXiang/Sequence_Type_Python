@@ -110,3 +110,14 @@ custom-sequence-type/
 - Benchmark performance compared with built-in lists.
 - Explore **integration with collections.abc** for automatic interface validation.
 - Provide examples of **real-world applications** (e.g., immutable configs, validated datasets).
+
+
+## 👉 Install dependencies with:
+```bash
+pip install -r requirements.txt
+```
+
+## 👉 To run the tests, simply execute:
+```bash
+pytest tests/
+```
